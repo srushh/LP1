@@ -1,0 +1,30 @@
+> hadoop version
+> javac -version
+
+// Create new folder as "input_data" and add your text file into it (input.txt)
+// Create a more folder as "java_classes" 
+
+> export HADOOP_CLASSPATH = $(hadoop classpath)
+> echo $HADOOP_CLASSPATH
+
+// Make sure your hadoop has been running before this 
+
+> hadoop fs -mkdir /WordCountProgram
+> hadoop fs -mkdir /WordCountProgram/Input
+> hadoop fs -mkdir /WordCountProgram/Output
+
+// Go to browser and check it. localhost:50070
+
+> hadoop fs -put '/home/.../DA4/input_data/input.txt' /WordCountProgram/Input
+
+// Change current directory to DA4
+
+> javac -classpath ${HADOOP_CLASSPATH} -d '/home/.../DA4/java_classes' '/home/../DA4/WordCount.java'
+
+> jar -cvf wc.jar -C java_classes/
+
+// Run jar on hadoop
+
+> hadoop jar '/home/../DA4/java_classes/wc.jar' WordCount /WordCountProgram/Input /WordCountProgram/Output
+
+> hadoop dfs -cat /WordCountProgram/Output/*
